@@ -1,20 +1,20 @@
 {
   "name": "expo-geocoding",
   "version": "0.1.0",
-  "description": "Zero-config Expo-first geocoding: Nominatim, cache, rate limits, hooks, PlaceAutocomplete.",
+  "description": "Zero-config Expo-first geocoding SDK with Nominatim, caching, hooks, and autocomplete.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "sideEffects": false,
+  "files": ["build"],
   "exports": {
     ".": {
       "types": "./build/index.d.ts",
       "default": "./build/index.js"
     },
-    "./ui": {
-      "types": "./build/ui/index.d.ts",
-      "default": "./build/ui/index.js"
-    },
     "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "expo-module build",
@@ -22,16 +22,25 @@
     "lint": "expo-module lint",
     "test": "expo-module test",
     "prepare": "expo-module prepare",
-    "prepublishOnly": "expo-module prepublishOnly",
+    "prepublishOnly": "npm run build",
     "expo-module": "expo-module",
     "open:ios": "xed example/ios",
     "open:android": "open -a \"Android Studio\" example/android"
   },
   "keywords": [
-    "react-native",
     "expo",
+    "react-native",
+    "geocoding",
+    "reverse-geocoding",
+    "nominatim",
+    "openstreetmap",
+    "osm",
+    "places",
+    "autocomplete",
+    "location",
+    "maps",
     "expo-geocoding",
-    "ExpoGeocoding"
+    "expo-module"
   ],
   "repository": "https://github.com/krmll4444/expo-geocoding",
   "bugs": {

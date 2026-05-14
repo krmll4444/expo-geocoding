@@ -217,11 +217,7 @@ export function Screen() {
 
 **Optional props:** `client`, `style`, `inputStyle`, `listStyle`, `maxSuggestions`.
 
-Optional entry for UI-only imports (after the package is built):
-
-```ts
-import { PlaceAutocomplete } from 'expo-geocoding/ui';
-```
+`PlaceAutocomplete` is exported from the root entry (`expo-geocoding`) so consumers always resolve the same built bundle; there is no separate `expo-geocoding/ui` publish path.
 
 ## Custom provider
 
