@@ -55,3 +55,20 @@ yarn-error.log
 
 # Expo
 .expo/*
+
+# Secrets & machine-local env (never commit real keys)
+.env
+.env.local
+.env.*.local
+
+# iOS / RN codegen under example (Pods already listed above)
+example/ios/build/
+
+# Editor / tooling (local only)
+.idea/
+*.swp
+*.swo
+
+# Test / coverage artifacts
+coverage/
+.nyc_output/

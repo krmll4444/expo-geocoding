@@ -36,6 +36,15 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
-# generated native folders
-/ios
-/android
+# iOS — do not commit Pods or RN/Expo codegen; keep Podfile, Podfile.lock, sources
+ios/Pods/
+ios/build/
+*.xcuserstate
+**/xcuserdata/
+
+# Android — build outputs & machine-local paths
+android/.gradle/
+android/build/
+android/app/build/
+android/app/release/
+android/local.properties

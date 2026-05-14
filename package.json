@@ -1,9 +1,21 @@
 {
   "name": "expo-geocoding",
   "version": "0.1.0",
-  "description": "My new module",
+  "description": "Zero-config Expo-first geocoding: Nominatim, cache, rate limits, hooks, PlaceAutocomplete.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./build/index.d.ts",
+      "default": "./build/index.js"
+    },
+    "./ui": {
+      "types": "./build/ui/index.d.ts",
+      "default": "./build/ui/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "build": "expo-module build",
     "clean": "expo-module clean",

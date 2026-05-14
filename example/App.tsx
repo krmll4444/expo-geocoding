@@ -1,73 +1,55 @@
-import { useEvent } from 'expo';
-import ExpoGeocoding, { ExpoGeocodingView } from 'expo-geocoding';
-import { Button, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { configureDefaultClient, PlaceAutocomplete, type Place } from 'expo-geocoding';
+import { Platform, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
-  const onChangePayload = useEvent(ExpoGeocoding, 'onChange');
+configureDefaultClient({
+  userAgent: 'expo-geocoding-example/1.0 (contact: dev@localhost)',
+});
+
+export default function App(): React.ReactElement {
+  const [selected, setSelected] = useState<Place | null>(null);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.container}>
-        <Text style={styles.header}>Module API Example</Text>
-        <Group name="Constants">
-          <Text>{ExpoGeocoding.PI}</Text>
-        </Group>
-        <Group name="Functions">
-          <Text>{ExpoGeocoding.hello()}</Text>
-        </Group>
-        <Group name="Async functions">
-          <Button
-            title="Set value"
-            onPress={async () => {
-              await ExpoGeocoding.setValueAsync('Hello from JS!');
+    <SafeAreaView style={styles.safe}>
+      <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+        <Text style={styles.title}>expo-geocoding</Text>
+        <Text style={styles.sub}>
+          Search powered by OpenStreetMap Nominatim (~1 req/s, 24h in-memory cache).
+        </Text>
+
+        <View style={styles.block}>
+          <PlaceAutocomplete
+            placeholder="Search location"
+            onSelect={(place) => {
+              setSelected(place);
             }}
           />
-        </Group>
-        <Group name="Events">
-          <Text>{onChangePayload?.value}</Text>
-        </Group>
-        <Group name="Views">
-          <ExpoGeocodingView
-            url="https://www.example.com"
-            onLoad={({ nativeEvent: { url } }) => console.log(`Loaded: ${url}`)}
-            style={styles.view}
-          />
-        </Group>
+        </View>
+
+        {selected ? (
+          <View style={styles.result}>
+            <Text style={styles.resultTitle}>Selected</Text>
+            <Text style={styles.mono}>{JSON.stringify(selected, null, 2)}</Text>
+          </View>
+        ) : null}
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-function Group(props: { name: string; children: React.ReactNode }) {
-  return (
-    <View style={styles.group}>
-      <Text style={styles.groupHeader}>{props.name}</Text>
-      {props.children}
-    </View>
-  );
-}
-
-const styles = {
-  header: {
-    fontSize: 30,
-    margin: 20,
-  },
-  groupHeader: {
-    fontSize: 20,
-    marginBottom: 20,
-  },
-  group: {
-    margin: 20,
+const styles = StyleSheet.create({
+  safe: { flex: 1, backgroundColor: '#f6f6f8' },
+  scroll: { padding: 20, paddingBottom: 40 },
+  title: { fontSize: 26, fontWeight: '700', marginBottom: 8 },
+  sub: { fontSize: 15, color: '#555', marginBottom: 20 },
+  block: { marginBottom: 24 },
+  result: {
     backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 20,
+    borderRadius: 12,
+    padding: 14,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: '#ddd',
   },
-  container: {
-    flex: 1,
-    backgroundColor: '#eee',
-  },
-  view: {
-    flex: 1,
-    height: 200,
-  },
-};
+  resultTitle: { fontSize: 17, fontWeight: '600', marginBottom: 8 },
+  mono: { fontFamily: Platform.select({ ios: 'Menlo', android: 'monospace', default: 'monospace' }), fontSize: 12 },
+});

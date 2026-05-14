@@ -1,9 +1,1 @@
-{
-  "platforms": ["apple", "android", "web"],
-  "apple": {
-    "modules": ["ExpoGeocodingModule"]
-  },
-  "android": {
-    "modules": ["expo.modules.geocoding.ExpoGeocodingModule"]
-  }
-}
+{}
