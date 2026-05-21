@@ -3,6 +3,8 @@
 **Expo-first geocoding for React Native** — a typed layer over forward and reverse geocoding with **no required native dependencies** in v1. The default backend is [OpenStreetMap Nominatim](https://nominatim.openstreetmap.org); you can plug in your own provider (Mapbox, Google Places, self-hosted Nominatim, etc.).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![npm](https://img.shields.io/npm/v/expo-geocoding)](https://www.npmjs.com/package/expo-geocoding)
+[![npm downloads](https://img.shields.io/npm/dm/expo-geocoding)](https://www.npmjs.com/package/expo-geocoding)
 
 ## Why this library
 
