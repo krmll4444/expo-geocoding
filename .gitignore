@@ -72,3 +72,6 @@ example/ios/build/
 # Test / coverage artifacts
 coverage/
 .nyc_output/
+
+# npm pack tarballs
+*.tgz

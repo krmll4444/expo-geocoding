@@ -5,7 +5,7 @@
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "sideEffects": false,
-  "files": ["build"],
+  "files": ["build", "expo-module.config.json"],
   "exports": {
     ".": {
       "types": "./build/index.d.ts",
@@ -17,11 +17,11 @@
     "access": "public"
   },
   "scripts": {
-    "build": "expo-module build",
+    "build": "node scripts/build-once.mjs",
     "clean": "expo-module clean",
     "lint": "expo-module lint",
     "test": "expo-module test",
-    "prepare": "expo-module prepare",
+    "prepare": "npm run build",
     "prepublishOnly": "npm run build",
     "expo-module": "expo-module",
     "open:ios": "xed example/ios",
@@ -52,6 +52,7 @@
   "dependencies": {},
   "devDependencies": {
     "@types/react": "~19.1.1",
+    "react": "19.0.0",
     "expo-module-scripts": "^55.0.2",
     "expo": "^55.0.24",
     "react-native": "0.82.1"
