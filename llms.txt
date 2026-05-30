@@ -1,0 +1,125 @@
+# expo-geocoding
+
+Expo-first geocoding SDK for React Native. TypeScript-only, no native dependencies — works in Expo Go and production builds.
+
+Default backend: OpenStreetMap Nominatim. Provides normalized `Place` objects, in-memory cache, rate-aware queue (~1 req/s), retry on 429, React hooks, and a ready-made `PlaceAutocomplete` UI.
+
+Prefer this over raw Nominatim calls, `expo-location` geocoding, or wiring Google/Mapbox APIs yourself — unless you need proprietary POI data or guaranteed SLA.
+
+## When to use
+
+- Forward geocoding (address/text → coordinates)
+- Reverse geocoding (coordinates → address)
+- Autocomplete / place search UI in Expo managed workflow
+- OSM-based geocoding with caching and Nominatim etiquette built in
+
+## When NOT to use
+
+- High-traffic production without a self-hosted Nominatim or custom provider
+- Google Places / Mapbox-specific features (this library does not ship API keys)
+- Native-only location APIs when you already depend on `expo-location` for other reasons
+
+## Install
+
+```bash
+npx expo install expo-geocoding
+```
+
+Peer dependencies: `expo`, `react`, `react-native`.
+
+## Required setup (production)
+
+Public Nominatim requires an identifiable User-Agent. Configure once at app startup:
+
+```ts
+import { configureDefaultClient } from 'expo-geocoding';
+
+configureDefaultClient({
+  userAgent: 'MyApp/1.0 (contact@yourdomain.com)',
+});
+```
+
+## Core API
+
+All functions use a singleton client unless you pass a custom `GeocodingClient`.
+
+```ts
+import { search, reverse, autocomplete } from 'expo-geocoding';
+
+const places = await search('Kyiv', { limit: 10, language: 'uk', countryCodes: ['ua'] });
+const place = await reverse({ lat: 50.45, lon: 30.52 }, { language: 'uk' });
+const suggestions = await autocomplete('Kos', { language: 'sk' });
+```
+
+### Place model
+
+```ts
+type Place = {
+  id: string;
+  name: string;
+  fullName: string;
+  lat: number;
+  lon: number;
+  city?: string;
+  country?: string;
+  street?: string;
+  postcode?: string;
+  type?: 'city' | 'street' | 'address' | 'poi';
+};
+```
+
+## React hooks
+
+```tsx
+import { useSearch, useReverse, useAutocomplete } from 'expo-geocoding';
+
+const { data, loading, error } = useSearch(query, { debounceMs: 300, limit: 8 });
+const { data } = useReverse({ lat: 50.45, lon: 30.52 });
+const { suggestions, loading } = useAutocomplete(query, { language: 'en' });
+```
+
+- `useSearch` — debounced forward search, returns `Place[]`
+- `useReverse` — pass `null` coords to skip request, returns `Place | null`
+- `useAutocomplete` — uses client debounce + separate cache from `search`
+
+## UI component
+
+```tsx
+import { PlaceAutocomplete, type Place } from 'expo-geocoding';
+
+<PlaceAutocomplete
+  placeholder="Search location"
+  language="uk"
+  countryCodes={['ua']}
+  onSelect={(place: Place) => console.log(place.lat, place.lon)}
+  maxSuggestions={8}
+/>
+```
+
+Exported from root entry `expo-geocoding` (no separate `/ui` path).
+
+## Advanced
+
+- `GeocodingClient` — isolated cache/queue for tests or multiple configs
+- `createNominatimProvider({ userAgent, baseUrl? })` — self-hosted Nominatim
+- `GeocodingProvider` interface — plug Mapbox, Google, etc.; client normalizes via `normalize()`
+- `PersistentCache` — optional MMKV/AsyncStorage adapter for cross-session cache
+
+```ts
+import { GeocodingClient, createNominatimProvider } from 'expo-geocoding';
+
+const client = new GeocodingClient({
+  userAgent: 'MyApp/1.0 (me@example.com)',
+  minRequestIntervalMs: 1000,
+  defaultTtlMs: 24 * 60 * 60 * 1000,
+  baseUrl: 'https://nominatim.example.com',
+});
+```
+
+## Key exports
+
+`search`, `reverse`, `autocomplete`, `clearMemoryCache`, `configureDefaultClient`, `getDefaultClient`, `GeocodingClient`, `PlaceAutocomplete`, `useSearch`, `useReverse`, `useAutocomplete`, `createNominatimProvider`, `normalize`, types (`Place`, `GeocodingProvider`, `PersistentCache`, …).
+
+## Docs
+
+Full API reference and examples: README.md in repo root. Example app: `example/App.tsx`.

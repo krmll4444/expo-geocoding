@@ -1,11 +1,11 @@
 {
   "name": "expo-geocoding",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Zero-config Expo-first geocoding SDK with Nominatim, caching, hooks, and autocomplete.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "sideEffects": false,
-  "files": ["build", "expo-module.config.json"],
+  "files": ["build", "llms.txt"],
   "exports": {
     ".": {
       "types": "./build/index.d.ts",

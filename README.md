@@ -217,7 +217,7 @@ export function Screen() {
 }
 ```
 
-**Optional props:** `client`, `style`, `inputStyle`, `listStyle`, `maxSuggestions`.
+**Optional props:** `client`, `language`, `countryCodes`, `style`, `inputStyle`, `listStyle`, `maxSuggestions`.
 
 `PlaceAutocomplete` is exported from the root entry (`expo-geocoding`) so consumers always resolve the same built bundle; there is no separate `expo-geocoding/ui` publish path.
 

@@ -12,7 +12,7 @@ import type {
   SearchOptions,
 } from './types';
 
-const DEFAULT = 'expo-geocoding/0.1 (https://github.com/krmll4444/expo-geocoding)';
+const DEFAULT = 'expo-geocoding/0.1.1 (https://github.com/krmll4444/expo-geocoding)';
 
 async function readPersistent<T>(cache: PersistentCache | undefined, key: string): Promise<T | undefined> {
   if (!cache) {
@@ -295,4 +295,8 @@ export async function reverse(coords: { lat: number; lon: number }, options?: Re
 
 export function autocomplete(query: string, options?: AutocompleteOptions): Promise<Place[]> {
   return getDefaultClient().autocomplete(query, options);
+}
+
+export function clearMemoryCache(): void {
+  getDefaultClient().clearMemoryCache();
 }

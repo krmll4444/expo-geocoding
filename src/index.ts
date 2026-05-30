@@ -21,6 +21,7 @@ export { ThrottledQueue, isAbortError } from './core/rateLimit';
 export {
   GeocodingClient,
   autocomplete,
+  clearMemoryCache,
   configureDefaultClient,
   getDefaultClient,
   reverse,

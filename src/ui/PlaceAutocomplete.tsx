@@ -22,6 +22,8 @@ export interface PlaceAutocompleteProps {
   onSelect: (place: Place) => void;
   placeholder?: string;
   client?: GeocodingClient;
+  language?: string;
+  countryCodes?: string[];
   style?: StyleProp<ViewStyle>;
   inputStyle?: StyleProp<TextStyle>;
   listStyle?: StyleProp<ViewStyle>;
@@ -54,13 +56,15 @@ export function PlaceAutocomplete({
   onSelect,
   placeholder = 'Search location',
   client,
+  language,
+  countryCodes,
   style,
   inputStyle,
   listStyle,
   maxSuggestions = 8,
 }: PlaceAutocompleteProps): React.ReactElement {
   const [query, setQuery] = useState('');
-  const { suggestions, loading } = useAutocomplete(query, { client });
+  const { suggestions, loading } = useAutocomplete(query, { client, language, countryCodes });
 
   const visible = useMemo(
     () => suggestions.slice(0, maxSuggestions),
