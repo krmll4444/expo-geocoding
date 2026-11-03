@@ -31,7 +31,7 @@ function mapOsmTypeToPlaceType(osmClass: string | undefined, osmType: string | u
   if (cls === 'amenity' || cls === 'shop' || cls === 'tourism' || cls === 'leisure' || cls === 'historic') {
     return 'poi';
   }
-  if (cls === 'building' || cls === 'place' && typ === 'house') {
+  if (cls === 'building' || (cls === 'place' && typ === 'house')) {
     return 'address';
   }
   if (cls === 'place') {

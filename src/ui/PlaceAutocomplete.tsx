@@ -24,6 +24,8 @@ export interface PlaceAutocompleteProps {
   client?: GeocodingClient;
   language?: string;
   countryCodes?: string[];
+  /** When false, suggestions are not fetched. Default true. */
+  enabled?: boolean;
   style?: StyleProp<ViewStyle>;
   inputStyle?: StyleProp<TextStyle>;
   listStyle?: StyleProp<ViewStyle>;
@@ -58,13 +60,19 @@ export function PlaceAutocomplete({
   client,
   language,
   countryCodes,
+  enabled = true,
   style,
   inputStyle,
   listStyle,
   maxSuggestions = 8,
 }: PlaceAutocompleteProps): React.ReactElement {
   const [query, setQuery] = useState('');
-  const { suggestions, loading } = useAutocomplete(query, { client, language, countryCodes });
+  const { suggestions, loading } = useAutocomplete(query, {
+    client,
+    language,
+    countryCodes,
+    enabled,
+  });
 
   const visible = useMemo(
     () => suggestions.slice(0, maxSuggestions),
